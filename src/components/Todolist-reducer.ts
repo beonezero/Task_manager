@@ -10,6 +10,10 @@ export const initialTodolistsStateType = (state: InitialTodolistsStateType = ini
     }
 }
 
+//actions
+
+const addTodolistAC = () => {}
+
 // types
 
 export type InitialTodolistsStateType = typeof initialState
