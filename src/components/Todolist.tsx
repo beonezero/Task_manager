@@ -1,20 +1,29 @@
-import {TaskType, TodolistType} from "../App";
+import {TaskType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import s from "./Todolist.module.css"
+import {InitialTodolistsStateType} from "./Todolist-reducer";
 
 export const Todolist = (props: TodolistPropsType) => {
 
+    const onClickButtonHandler = () => {
+        props.removeTodolist(props.todolistId)
+    }
+
     return <div className={s.Todos}>
-        <h2>{props.todolist.title}</h2>
-        <AddItemForm buttonName={"add"}/>
+        <h2>
+            {props.todolist.title}
+            <button onClick={onClickButtonHandler}>-</button>
+        </h2>
+
+        <AddItemForm buttonName={"add"} addItem={() => {}}/>
         <ul>
-        {props.tasks.map(t => {
-            return <li>
-                <input type="checkbox" checked={t.isDone}/>
-                {t.title}
-                <button>x</button>
-            </li>
-        })}
+        {/*{props.tasks.map(t => {*/}
+        {/*    return <li>*/}
+        {/*        <input type="checkbox" checked={t.isDone}/>*/}
+        {/*        {t.title}*/}
+        {/*        <button>x</button>*/}
+        {/*    </li>*/}
+        {/*})}*/}
         </ul>
         <button>All</button>
         <button>Active</button>
@@ -23,6 +32,8 @@ export const Todolist = (props: TodolistPropsType) => {
 }
 
 export type TodolistPropsType = {
-    todolist: TodolistType
-    tasks: TaskType[]
+    todolist: InitialTodolistsStateType
+    todolistId: string
+    removeTodolist: (todolistId: string) => void
+    // tasks: TaskType[]
 }

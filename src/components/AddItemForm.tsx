@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
+    const [title, setTitle] = useState("")
+    const onClickButtonHandler = () => {
+        props.addItem(title)
+    }
+
+    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
     return (
         <div>
-            <input type="text"/>
-            <button>{props.buttonName}</button>
+            <input value={title} type="text" onChange={onChangeInputHandler}/>
+            <button onClick={onClickButtonHandler}>{props.buttonName}</button>
         </div>
     );
 }
@@ -13,4 +22,5 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
 export type AddItemFormPropsType = {
     buttonName: string
+    addItem: (title: string) => void
 }
