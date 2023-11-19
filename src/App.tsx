@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import {v1} from "uuid";
 import {Todolist} from "./components/Todolist";
 import s from "./App.module.css"
 import {AddItemForm} from "./components/AddItemForm";
 import {useAppDispatch, useAppSelector} from "./store/store";
-import {addTodolistAC, removeTodolistAC} from "./components/Todolist-reducer";
+import {addTodolistAC, removeTodolistAC} from "./components/todolist-reducer";
 
 export const App = () => {
     const dispatch = useAppDispatch()

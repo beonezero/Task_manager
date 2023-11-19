@@ -1,10 +1,12 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from "redux";
-import {TodolistReducer} from "../components/Todolist-reducer";
+import {TodolistReducer} from "../components/todolist-reducer";
+import {taskReducer} from "../components/task-reducer";
 
 const rootReducer = combineReducers({
-    todolist: TodolistReducer
+    todolist: TodolistReducer,
+    task: taskReducer
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))

@@ -1,7 +1,6 @@
-import {TaskType} from "../App";
 import {AddItemForm} from "./AddItemForm";
 import s from "./Todolist.module.css"
-import {InitialTodolistsStateType} from "./Todolist-reducer";
+import {InitialTodolistsStateType} from "./todolist-reducer";
 
 export const Todolist = (props: TodolistPropsType) => {
 
