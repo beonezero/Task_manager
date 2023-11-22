@@ -3,7 +3,7 @@ import React, {ChangeEvent, useState} from 'react';
 export const AddItemForm = (props: AddItemFormPropsType) => {
     const [title, setTitle] = useState("")
     const onClickButtonHandler = () => {
-        props.addItem(title)
+        props.addItem(props.todolistId, title)
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,5 +22,6 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
 export type AddItemFormPropsType = {
     buttonName: string
-    addItem: (title: string) => void
+    addItem: (todolistId: string, title: string) => void
+    todolistId: string
 }

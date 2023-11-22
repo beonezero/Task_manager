@@ -5,10 +5,12 @@ const initialState: InitialTodolistsStateType[] = [
 ]
 export const TodolistReducer = (state: InitialTodolistsStateType[] = initialState, aciton: TodolistsReducerActionsType): InitialTodolistsStateType[] => {
     switch (aciton.type){
-        case "Todolist/ADD-TODOLIST":
-            return [{id: "todolist4", title: aciton.title, filter: "all"}, ...state]
-        case "Todolist/REMOVE-TODOLIST":
+        case "TODOLIST/ADD-TODOLIST":
+            return [{id: aciton.todolistId, title: aciton.title, filter: "all"}, ...state]
+        case "TODOLIST/REMOVE-TODOLIST":
             return state.filter(td => td.id !== aciton.id)
+        case "TODOLIST/CHANGE-FILTER":
+            return state.map(tl => tl.id === aciton.todolistId ? {...tl, filter: aciton.filter} : tl)
         default:
             return state
     }
@@ -16,8 +18,10 @@ export const TodolistReducer = (state: InitialTodolistsStateType[] = initialStat
 
 //actions
 
-export const addTodolistAC = (title: string) => ({type: "Todolist/ADD-TODOLIST", title} as const)
-export const removeTodolistAC = (id: string) => ({type: "Todolist/REMOVE-TODOLIST", id} as const)
+export const addTodolistAC = (title: string, todolistId: string) => ({type: "TODOLIST/ADD-TODOLIST", title, todolistId} as const)
+export const removeTodolistAC = (id: string) => ({type: "TODOLIST/REMOVE-TODOLIST", id} as const)
+
+export const changeFilterAC = (todolistId: string, filter: FilterType) => ({type: "TODOLIST/CHANGE-FILTER", todolistId, filter} as const)
 
 // types
 export type FilterType = "all" | "active" | "completed"
@@ -28,4 +32,6 @@ export type InitialTodolistsStateType = {
     filter: FilterType
 }
 
-export type TodolistsReducerActionsType = ReturnType<typeof addTodolistAC> | ReturnType<typeof removeTodolistAC>
+export type TodolistsReducerActionsType = addTodolistType | ReturnType<typeof removeTodolistAC> | ReturnType<typeof changeFilterAC>
+
+export type addTodolistType = ReturnType<typeof addTodolistAC>
