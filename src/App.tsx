@@ -3,7 +3,7 @@ import s from "./App.module.css"
 import {AddItemForm} from "./components/AddItemForm";
 import {useAppDispatch, useAppSelector} from "./store/store";
 import {addTodolistAC, changeFilterAC, FilterType, removeTodolistAC} from "./components/todolist-reducer";
-import {addTaskAC, removeTaskAC} from "./components/task-reducer";
+import {addTaskAC, changeTaskStatusAC, removeTaskAC} from "./components/task-reducer";
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -30,6 +30,14 @@ export const App = () => {
         dispatch(changeFilterAC(todolistId, filter))
     }
 
+    const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
+        dispatch(changeTaskStatusAC(todolistId, taskId, checked))
+    }
+
+    const changeTaskTitle = (value: string) => {
+
+    }
+
     return <div className={s.App}>
         <div className={s.AddTask}>
             <h2>Add Task</h2>
@@ -52,6 +60,8 @@ export const App = () => {
                                  addTask={addTask}
                                  removeTask={removeTask}
                                  changeFilter={changeFilter}
+                                 changeTaskStatus={changeTaskStatus}
+                                 changeTaskTitle={changeTaskTitle}
                 />
             })}
         </div>

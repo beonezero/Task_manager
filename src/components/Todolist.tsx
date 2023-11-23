@@ -2,6 +2,8 @@ import {AddItemForm} from "./AddItemForm";
 import s from "./Todolist.module.css"
 import {FilterType, InitialTodolistsStateType} from "./todolist-reducer";
 import {TaskType} from "./task-reducer";
+import {ChangeEvent} from "react";
+import {AditableSpan} from "./AditableSpan";
 
 export const Todolist = (props: TodolistPropsType) => {
 
@@ -15,7 +17,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
     return <div className={s.Todos}>
         <h2>
-            {props.todolist.title}
+            <AditableSpan value={props.}/>
             <button onClick={onClickButtonHandler}>-</button>
         </h2>
 
@@ -25,8 +27,11 @@ export const Todolist = (props: TodolistPropsType) => {
             const removeTaskHandler = () => {
                 props.removeTask(props.todolistId, t.id)
             }
+            const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked)
+            }
             return <li>
-                <input type="checkbox" checked={t.isDone}/>
+                <input type="checkbox" checked={t.isDone} onChange={onChangeInputHandler}/>
                 {t.title}
                 <button onClick={removeTaskHandler}>x</button>
             </li>
@@ -46,4 +51,6 @@ export type TodolistPropsType = {
     addTask: (todolistId: string, title: string) => void
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolist: string, filter: FilterType) => void
+    changeTaskStatus: (todolistId: string, taskId: string, checked: boolean) => void
+    changeTaskTitle: (value: string) => void
 }
