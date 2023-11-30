@@ -28,10 +28,17 @@ export const taskReducer = (state: InitialTasksType = initialState, action: Task
             return {...state, [action.todolistId]: [newTask, ...state[action.todolistId]]}
         case "TASK/REMOVE-TASK":
             return {...state, [action.todolistId]: [...state[action.todolistId].filter(t => t.id !== action.taskId)]}
-        case "TASK/CHANGE/TASK/STATUS":
+        case "TASK/CHANGE-TASK-STATUS":
             return {
                 ...state, [action.todolistId]: [...state[action.todolistId].map(t => {
                         return t.id === action.taskId ? {...t, isDone: action.checked} : t
+                    }
+                )]
+            }
+        case "TASK/CHANGE-TASK-TITLE":
+            return {
+                ...state, [action.todolistId]: [...state[action.todolistId].map(t => {
+                        return t.id === action.taskId ? {...t, title: action.title} : t
                     }
                 )]
             }
@@ -47,7 +54,11 @@ export const removeTaskAC = (todolistId: string, taskId: string) => ({
     taskId
 } as const)
 export const changeTaskStatusAC = (todolistId: string, taskId: string, checked: boolean) =>
-    ({type: "TASK/CHANGE/TASK/STATUS", todolistId, taskId, checked} as const)
+    ({type: "TASK/CHANGE-TASK-STATUS", todolistId, taskId, checked} as const)
+
+export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string) =>
+    ({type: "TASK/CHANGE-TASK-TITLE", todolistId, taskId, title} as const)
+
 
 export type InitialTasksType = {
     [key: string]: TaskType[]
@@ -60,4 +71,4 @@ export type TaskType = {
 }
 
 export type TasksActionType = ReturnType<typeof addTaskAC> | addTodolistType | ReturnType<typeof removeTaskAC>
-    | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof changeTaskStatusAC> | ReturnType<typeof changeTaskTitleAC>

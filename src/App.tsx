@@ -2,13 +2,20 @@ import {Todolist} from "./components/Todolist";
 import s from "./App.module.css"
 import {AddItemForm} from "./components/AddItemForm";
 import {useAppDispatch, useAppSelector} from "./store/store";
-import {addTodolistAC, changeFilterAC, FilterType, removeTodolistAC} from "./components/todolist-reducer";
-import {addTaskAC, changeTaskStatusAC, removeTaskAC} from "./components/task-reducer";
+import {
+    addTodolistAC,
+    changeFilterAC,
+    changeTodolistTitleAC,
+    FilterType,
+    removeTodolistAC
+} from "./components/todolist-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./components/task-reducer";
 
 export const App = () => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(store => store.todolist)
     const tasks = useAppSelector(store => store.task)
+    const taskTitle = useAppSelector(store => store.task.title)
 
     const todolistId = "todolist4"
     const addTodolist = (title: string) => {
@@ -34,10 +41,6 @@ export const App = () => {
         dispatch(changeTaskStatusAC(todolistId, taskId, checked))
     }
 
-    const changeTaskTitle = (value: string) => {
-
-    }
-
     return <div className={s.App}>
         <div className={s.AddTask}>
             <h2>Add Task</h2>
@@ -52,6 +55,12 @@ export const App = () => {
                 if (td.filter === "completed"){
                     allTodolistTasks = tasks[td.id].filter(t => t.isDone)
                 }
+                const changeTaskTitle = (taskId: string, value: string) => {
+                    dispatch(changeTaskTitleAC(td.id, taskId, value))
+                }
+                const changeTodolistTitle = (value: string) => {
+                    dispatch(changeTodolistTitleAC(td.id, value))
+                }
                 return <Todolist key={td.id}
                                  todolist={td}
                                  todolistId={td.id}
@@ -62,6 +71,7 @@ export const App = () => {
                                  changeFilter={changeFilter}
                                  changeTaskStatus={changeTaskStatus}
                                  changeTaskTitle={changeTaskTitle}
+                                 changeTodolistTitle = {changeTodolistTitle}
                 />
             })}
         </div>
