@@ -9,8 +9,7 @@ export const AditableSpan = (props: AditableSpanPropsType) => {
     }
 
     const onBlurInputHandler = () => {
-        props.changeTaskTitle!(props.taskId!,title)
-        props.changeTodolistTitle()
+        props.changeTitle(title)
         setDoubleClick(false)
     }
 
@@ -28,7 +27,5 @@ export const AditableSpan = (props: AditableSpanPropsType) => {
 // types
  type AditableSpanPropsType = {
      value: string
-     changeTaskTitle?: (taskId: string, title: string)=> void
-     changeTodolistTitle?: (title: string)=> void
-     taskId?: string
+     changeTitle: (title: string) => void
  }
