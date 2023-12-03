@@ -1,19 +1,29 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
     const [title, setTitle] = useState("")
+
     const onClickButtonHandler = () => {
-        props.addItem(title)
-        setTitle("")
+        if (title.trim().length > 0) {
+            props.addItem(title.trim())
+            setTitle("")
+        }
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
         setTitle(e.currentTarget.value)
+    }
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.charCode === 13) {
+            onClickButtonHandler()
+        }
     }
 
     return (
         <div>
-            <input value={title} type="text" onChange={onChangeInputHandler}/>
+            <input onKeyPress={onKeyDownHandler} value={title} type="text" onChange={onChangeInputHandler}/>
             <button onClick={onClickButtonHandler}>{props.buttonName}</button>
         </div>
     );
