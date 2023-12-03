@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
 
 export const AddItemForm = (props: AddItemFormPropsType) => {
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState<string>("")
+    const [error, setError] = useState<string | null>(null)
 
     const onClickButtonHandler = () => {
         if (title.trim().length > 0) {
