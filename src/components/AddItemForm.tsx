@@ -8,7 +8,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         if (title.trim().length > 0) {
             props.addItem(title.trim())
             setTitle("")
-        }
+        } else {setError("Error")}
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
