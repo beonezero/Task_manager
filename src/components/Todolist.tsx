@@ -23,7 +23,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
         <AddItemForm buttonName={"add"} addItem={props.addTask} todolistId={props.todolistId}/>
         <ul>
-        {props.tasks.map(t => {
+        {props.tasks?.map(t => {
             const removeTaskHandler = () => {
                 props.removeTask(props.todolistId, t.id)
             }
