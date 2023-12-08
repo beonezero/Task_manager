@@ -8,11 +8,11 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
         if (title.trim().length > 0) {
             props.addItem(title.trim())
             setTitle("")
+            setError("")
         } else {setError("Error")}
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
         setTitle(e.currentTarget.value)
     }
 
@@ -24,6 +24,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
     return (
         <div>
+            {error}
             <input onKeyPress={onKeyDownHandler} value={title} type="text" onChange={onChangeInputHandler}/>
             <button onClick={onClickButtonHandler}>{props.buttonName}</button>
         </div>

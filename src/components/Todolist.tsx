@@ -1,9 +1,9 @@
 import {AddItemForm} from "./AddItemForm";
 import s from "./Todolist.module.css"
 import {FilterType, InitialTodolistsStateType} from "./todolist-reducer";
-import {TaskType} from "./task-reducer";
 import {ChangeEvent} from "react";
 import {AditableSpan} from "./AditableSpan";
+import {TaskType} from "../api/todolist-api";
 
 export const Todolist = (props: TodolistPropsType) => {
 
@@ -35,7 +35,7 @@ export const Todolist = (props: TodolistPropsType) => {
             }
 
             return <li key={t.id}>
-                <input type="checkbox" checked={t.isDone} onChange={onChangeInputHandler}/>
+                <input type="checkbox" onChange={onChangeInputHandler}/>
                 <AditableSpan value={t.title} changeTitle={changeTaskTitle}/>
                 <button onClick={removeTaskHandler}>x</button>
             </li>

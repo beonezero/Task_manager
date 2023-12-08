@@ -5,11 +5,12 @@ import {useAppDispatch, useAppSelector} from "./store/store";
 import {
     addTodolistAC,
     changeFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, fetchTodolistsTC,
     FilterType,
     removeTodolistAC
 } from "./components/todolist-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./components/task-reducer";
+import {useEffect} from "react";
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -36,6 +37,10 @@ export const App = () => {
         dispatch(changeTaskStatusAC(todolistId, taskId, checked))
     }
 
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    }, [])
+
     return <div className={s.App}>
         <div className={s.AddTask}>
             <h2>Add Task</h2>
@@ -44,12 +49,6 @@ export const App = () => {
         <div className={s.Todolist}>
             {todolists.map(td => {
                 let allTodolistTasks = tasks[td.id]
-                if (td.filter === "active"){
-                    allTodolistTasks = tasks[td.id].filter(t => !t.isDone)
-                }
-                if (td.filter === "completed"){
-                    allTodolistTasks = tasks[td.id].filter(t => t.isDone)
-                }
                 const changeTasksTitle = (taskId: string, value: string) => {
                     dispatch(changeTaskTitleAC(td.id, taskId, value))
                 }
