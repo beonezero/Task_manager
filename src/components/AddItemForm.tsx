@@ -24,7 +24,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 
     return (
         <div>
-            {error}
+            <h4>{error}</h4>
             <input onKeyPress={onKeyDownHandler} value={title} type="text" onChange={onChangeInputHandler}/>
             <button onClick={onClickButtonHandler}>{props.buttonName}</button>
         </div>
