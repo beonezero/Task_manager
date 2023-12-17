@@ -9,7 +9,7 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             props.addItem(title.trim())
             setTitle("")
             setError("")
-        } else {setError("Error")}
+        } else {setError("")}
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
