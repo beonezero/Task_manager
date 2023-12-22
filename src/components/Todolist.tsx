@@ -47,6 +47,8 @@ export const Todolist = (props: TodolistPropsType) => {
     </div>
 }
 
+// type
+
 export type TodolistPropsType = {
     todolist: InitialTodolistsStateType
     todolistId: string
