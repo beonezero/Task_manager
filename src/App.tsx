@@ -13,7 +13,7 @@ export const App = () => {
     const todolists = useAppSelector(store => store.todolist)
     const tasks = useAppSelector(store => store.task)
 
-    const todolistId = "todolist4"
+    const todolistId = "todolist"
     const addTodolist = (title: string) => {
     }
     const removeTodolist = (todolistId: string) => {
