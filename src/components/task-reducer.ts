@@ -17,7 +17,7 @@ export const taskReducer = (state: TaskStateType = initialState, action: TasksAc
     }
 }
 
-
+//types
 
 export type TaskStateType = {
     [key: string]: TaskType[]
