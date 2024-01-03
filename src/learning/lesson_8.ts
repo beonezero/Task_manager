@@ -53,7 +53,6 @@ export const isEvenIndexSumGreater = (arr: Array<number>): boolean => {
     for (let i = 0; i < arr.length; i++){
         if (i % 2 === 0){
             honest += arr[i]
-            continue
         } else {
             odd += arr[i]
         }
@@ -67,18 +66,17 @@ export const isEvenIndexSumGreater = (arr: Array<number>): boolean => {
 
 
 export function getSquarePositiveIntegers(array: Array<number>): Array<number> {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return []
+    return array.filter(number => (number > 0 && number % 1 === 0)).map(n => n * n)
 }
 
 // 6. Функция принимает параметром целое не отрицательное число N и возвращает сумму всех чисел от 0 до N включительно
 // Попробуйте реализовать функцию без использования перебирающих методов.
 
 export function sumFirstNumbers(N: number): number {
-    //...здесь пишем код.
-    // В return стоит "заглушка", чтоб typescript не ругался
-    return 0
+    if (N === 0){
+        return 0
+    }
+    return N + sumFirstNumbers(N - 1)
 }
 
 // ...и "лапку" вверх!!!!
