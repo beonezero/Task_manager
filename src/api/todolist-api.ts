@@ -1,20 +1,46 @@
 import axios from "axios";
 
-const instance = axios.create({
-    baseURL: "https://social-network.samuraijs.com/api/1.1/",
-    withCredentials: true,
-    headers: {
-        "API-KEY": "e318d0fb-ce59-4c2b-827b-0e3b18b76493"
-    }
-})
+    const instance = axios.create({
+        baseURL: "https://social-network.samuraijs.com/api/1.1/",
+        withCredentials: true
+    })
 
     export const todolistsAPI = {
         getTodolist(){
-            return instance.get("todo-lists")
+            return instance.get<TodolistType[]>("todo-lists")
+        },
+        createTodolist(title: string){
+            return instance.post<ResponseType<{item: TodolistType}>>("todo-lists", {title: title})
+        },
+        deleteTodolist(todolistId: string){
+            return instance.delete<ResponseType>(`todo-lists/{${todolistId}}`)
+        },
+        updateTodolist(todolistId: string, title: string){
+            return instance.put<ResponseType>(`todo-lists/{${todolistId}}`,{title: title})
+        },
+        getTasks(todolistId: string){
+            return instance.get<getTasksResponseType>(`todo-lists/{${todolistId}}/tasks`)
+        },
+        removeTask (todolistId: string, taskId: string) {
+            return instance.delete(`todo-lists/{${todolistId}}/tasks/{${taskId}}`)
         }
     }
 
-    //types
+//types
+
+
+type ResponseType<T = {}> = {
+    data: T
+    fieldsErrors: string []
+    messages: string []
+    resultCode: number
+}
+
+type getTasksResponseType = {
+    items: TaskType[],
+    totalCount: number,
+    error: string
+}
 
 export type TodolistType = {
     id: string,
@@ -23,26 +49,13 @@ export type TodolistType = {
     order: number
 }
 
-export enum TaskStatuses {
-    New = 0,
-    InProgress = 1,
-    Completed = 2,
-    Draft = 3
-}
-
-export enum TaskPriorities {
-    Low = 0,
-    Middle = 1,
-    Hi = 2,
-    Urgently = 3,
-    Later = 4
-}
 
 export type TaskType = {
     description: string
     title: string
-    status: TaskStatuses
-    priority: TaskPriorities
+    completed: boolean
+    status: number
+    priority: number
     startDate: string
     deadline: string
     id: string

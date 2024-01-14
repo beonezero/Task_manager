@@ -1,11 +1,17 @@
 import {AddItemForm} from "./AddItemForm";
 import s from "./Todolist.module.css"
 import {FilterType, InitialTodolistsStateType} from "./todolist-reducer";
-import {ChangeEvent} from "react";
+import {ChangeEvent, useEffect} from "react";
 import {AditableSpan} from "./AditableSpan";
 import {TaskType} from "../api/todolist-api";
+import {fetchTasksTC} from "./task-reducer";
+import {useAppDispatch} from "../store/store";
 
 export const Todolist = (props: TodolistPropsType) => {
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(fetchTasksTC(props.todolistId))
+    },[])
 
     const onClickButtonHandler = () => {
         props.removeTodolist(props.todolistId)
@@ -21,7 +27,7 @@ export const Todolist = (props: TodolistPropsType) => {
             <button onClick={onClickButtonHandler}>-</button>
         </h2>
 
-        <AddItemForm buttonName={"add"} addItem={props.addTask} todolistId={props.todolistId}/>
+        <AddItemForm buttonName={"add"} addItem={props.addTask}/>
         <ul>
         {props.tasks?.map(t => {
             const removeTaskHandler = () => {

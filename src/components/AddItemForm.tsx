@@ -36,5 +36,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
 export type AddItemFormPropsType = {
     buttonName: string
     addItem: (title: string) => void
-    todolistId: string
 }
