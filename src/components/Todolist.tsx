@@ -4,7 +4,7 @@ import {FilterType, InitialTodolistsStateType} from "./todolist-reducer";
 import {ChangeEvent, useEffect} from "react";
 import {AditableSpan} from "./AditableSpan";
 import {TaskType} from "../api/todolist-api";
-import {fetchTasksTC} from "./task-reducer";
+import {createTaskTC, fetchTasksTC} from "./task-reducer";
 import {useAppDispatch} from "../store/store";
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -21,13 +21,17 @@ export const Todolist = (props: TodolistPropsType) => {
     const onActiveClickHandler = () => {props.changeFilter(props.todolistId, "active")}
     const onCompletedClickHandler = () => {props.changeFilter(props.todolistId, "completed")}
 
+    const addTask = (title: string) => {
+        dispatch(createTaskTC(props.todolistId, title))
+    }
+
     return <div className={s.Todos}>
         <h2>
             <AditableSpan value={props.todolist.title} changeTitle={props.changeTodolistTitle}/>
             <button onClick={onClickButtonHandler}>-</button>
         </h2>
 
-        <AddItemForm buttonName={"add"} addItem={props.addTask}/>
+        <AddItemForm buttonName={"add"} addItem={addTask}/>
         <ul>
         {props.tasks?.map(t => {
             const removeTaskHandler = () => {
@@ -60,7 +64,6 @@ export type TodolistPropsType = {
     todolistId: string
     removeTodolist: (todolistId: string) => void
     tasks: TaskType[]
-    addTask: (title: string) => void
     removeTask: (todolistId: string, taskId: string) => void
     changeFilter: (todolist: string, filter: FilterType) => void
     changeTaskStatus: (todolistId: string, taskId: string, checked: boolean) => void

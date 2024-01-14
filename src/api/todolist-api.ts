@@ -23,6 +23,9 @@ import axios from "axios";
         },
         removeTask (todolistId: string, taskId: string) {
             return instance.delete(`todo-lists/{${todolistId}}/tasks/{${taskId}}`)
+        },
+        createTask (todolistId: string,title: string) {
+            return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
         }
     }
 

@@ -8,7 +8,7 @@ import {
     FilterType, removeTodolistTC, updateTodolistTC
 } from "./components/todolist-reducer";
 import {useEffect} from "react";
-import {deleteTaskTC} from "./components/task-reducer";
+import {createTaskTC, deleteTaskTC} from "./components/task-reducer";
 
 export const App = () => {
     const dispatch = useAppDispatch()
@@ -49,15 +49,11 @@ export const App = () => {
                 const changeTodolistTitle = (value: string) => {
                     dispatch(updateTodolistTC(td.id, value))
                 }
-
-                const addTask = (title: string) => {
-                }
                 return <Todolist key={td.id}
                                  todolist={td}
                                  todolistId={td.id}
                                  removeTodolist={removeTodolist}
                                  tasks={allTodolistTasks}
-                                 addTask={addTask}
                                  removeTask={removeTask}
                                  changeFilter={changeFilter}
                                  changeTaskStatus={changeTaskStatus}

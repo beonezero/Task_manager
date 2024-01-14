@@ -6,6 +6,10 @@ const initialState: TaskStateType = {}
 
 export const taskReducer = (state: TaskStateType = initialState, action: TasksActionType): TaskStateType => {
     switch (action.type) {
+        case "TASK/CREATE-TASK": {
+            console.log(action.task)
+            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
+        }
         case "TASK/REMOVE-TASK": {
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
         }
@@ -31,6 +35,7 @@ export const taskReducer = (state: TaskStateType = initialState, action: TasksAc
 
 const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({type: "TASK/SET-TASKS",todolistId, tasks}) as const
 const removeTaskAC = (todolistId: string, taskId: string) => ({type: "TASK/REMOVE-TASK",todolistId, taskId}) as const
+const createTaskAC = (task: TaskType) => ({type: "TASK/CREATE-TASK", task}) as const
 
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
     todolistsAPI.getTasks(todolistId)
@@ -45,6 +50,12 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
             dispatch(removeTaskAC(todolistId,taskId))
         })
 }
+export const createTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+    todolistsAPI.createTask(todolistId, title)
+        .then((res) => {
+            dispatch(createTaskAC(res.data.data.item))
+        })
+}
 
 //types
 
@@ -54,4 +65,4 @@ export type TaskStateType = {
 }
 
 export type TasksActionType = ReturnType<typeof setTasksAC> | ReturnType<typeof setTodolistAC>
-    | ReturnType<typeof removeTodolistAC> | ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof removeTodolistAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof createTaskAC>
