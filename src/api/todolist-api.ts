@@ -26,6 +26,9 @@ import axios from "axios";
         },
         createTask (todolistId: string,title: string) {
             return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
+        },
+        updateTask (todolistId: string, taskId: string, model: any) {
+            return instance.put(`todo-lists/{${todolistId}}/tasks/{${taskId}}`, model)
         }
     }
 
