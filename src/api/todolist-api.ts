@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
     const instance = axios.create({
         baseURL: "https://social-network.samuraijs.com/api/1.1/",
@@ -10,7 +10,7 @@ import axios from "axios";
             return instance.get<TodolistType[]>("todo-lists")
         },
         createTodolist(title: string){
-            return instance.post<ResponseType<{item: TodolistType}>>("todo-lists", {title: title})
+            return instance.post<null, AxiosResponse<ResponseType<{item: TodolistType}>>, {title: string}>("todo-lists", {title: title})
         },
         deleteTodolist(todolistId: string){
             return instance.delete<ResponseType>(`todo-lists/{${todolistId}}`)
@@ -27,12 +27,19 @@ import axios from "axios";
         createTask (todolistId: string,title: string) {
             return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
         },
-        updateTask (todolistId: string, taskId: string, model: any) {
+        updateTask (todolistId: string, taskId: string, model: TaskType) {
             return instance.put(`todo-lists/{${todolistId}}/tasks/{${taskId}}`, model)
         }
     }
 
 //types
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
 
 
 type ResponseType<T = {}> = {
@@ -60,7 +67,7 @@ export type TaskType = {
     description: string
     title: string
     completed: boolean
-    status: number
+    status: TaskStatuses
     priority: number
     startDate: string
     deadline: string

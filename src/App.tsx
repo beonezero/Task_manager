@@ -5,15 +5,18 @@ import {useAppDispatch, useAppSelector} from "./store/store";
 import {
     addTodolistTC,
     fetchTodolistsTC,
-    FilterType, removeTodolistTC, updateTodolistTC
+    FilterType,
+    removeTodolistTC,
+    updateTodolistTC
 } from "./components/todolist-reducer";
 import {useEffect} from "react";
-import {createTaskTC, deleteTaskTC} from "./components/task-reducer";
+import {changeTaskStatusTC, deleteTaskTC} from "./components/task-reducer";
+import {TaskStatuses} from "./api/todolist-api";
 
 export const App = () => {
     const dispatch = useAppDispatch()
-    const todolists = useAppSelector(store => store.todolist)
-    const tasks = useAppSelector(store => store.task)
+    const todolists = useAppSelector(store => store.todolists)
+    const tasks = useAppSelector(store => store.tasks)
 
     const addTodolist = (title: string) => {
         dispatch(addTodolistTC(title))
@@ -29,6 +32,7 @@ export const App = () => {
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
+        dispatch(changeTaskStatusTC(todolistId, taskId, checked ? TaskStatuses.Completed : TaskStatuses.New))
     }
 
     useEffect(() => {

@@ -6,8 +6,8 @@ import {taskReducer} from "../components/task-reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
-    todolist: TodolistReducer,
-    task: taskReducer
+    todolists: TodolistReducer,
+    tasks: taskReducer
 })
 
 export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))

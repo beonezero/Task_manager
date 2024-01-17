@@ -3,7 +3,7 @@ import s from "./Todolist.module.css"
 import {FilterType, InitialTodolistsStateType} from "./todolist-reducer";
 import {ChangeEvent, useEffect} from "react";
 import {AditableSpan} from "./AditableSpan";
-import {TaskType} from "../api/todolist-api";
+import {TaskStatuses, TaskType} from "../api/todolist-api";
 import {createTaskTC, fetchTasksTC} from "./task-reducer";
 import {useAppDispatch} from "../store/store";
 
@@ -43,9 +43,8 @@ export const Todolist = (props: TodolistPropsType) => {
             const changeTaskTitle = (value: string) => {
                 props.changeTasksTitle(t.id, value)
             }
-
             return <li key={t.id}>
-                <input type="checkbox" onChange={onChangeInputHandler}/>
+                <input type="checkbox" onChange={onChangeInputHandler} checked={t.status === TaskStatuses.Completed}/>
                 <AditableSpan value={t.title} changeTitle={changeTaskTitle}/>
                 <button onClick={removeTaskHandler}>x</button>
             </li>
