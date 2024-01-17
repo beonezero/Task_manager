@@ -8,8 +8,8 @@ const initialState: TaskStateType = {}
 export const taskReducer = (state: TaskStateType = initialState, action: TasksActionType): TaskStateType => {
     switch (action.type) {
         case "TASK/CHANGE-TASK-STATUS":
-            return {...state, [action.todolistId]: state[action.todolistId]
-                    .map(t => t.id === action.taskId ? {...t, status: action.status} : t)}
+            return {...state, [action.task.todoListId]: state[action.task.todoListId]
+                    .map(t => t.id === action.task.id ? {...t, status: action.task.status} : t)}
         case "TASK/CREATE-TASK": {
             return {...state,[action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         }
@@ -39,7 +39,7 @@ export const taskReducer = (state: TaskStateType = initialState, action: TasksAc
 const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({type: "TASK/SET-TASKS",todolistId, tasks}) as const
 const removeTaskAC = (todolistId: string, taskId: string) => ({type: "TASK/REMOVE-TASK",todolistId, taskId}) as const
 const createTaskAC = (task: TaskType) => ({type: "TASK/CREATE-TASK", task}) as const
-const changeTaskStatusAC = (todolistId: string, taskId: string, status: TaskStatuses) => ({type: "TASK/CHANGE-TASK-STATUS", todolistId, taskId, status}) as const
+const changeTaskStatusAC = (task: TaskType) => ({type: "TASK/CHANGE-TASK-STATUS", task}) as const
 
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
     todolistsAPI.getTasks(todolistId)
@@ -80,7 +80,7 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
     }
         todolistsAPI.updateTask(todolistId, taskId, model)
             .then((res) => {
-                changeTaskStatusAC(todolistId, taskId, status)
+                dispatch(changeTaskStatusAC(res.data.data.item))
             })
     }
 }

@@ -9,7 +9,7 @@ import {
     removeTodolistTC,
     updateTodolistTC
 } from "./components/todolist-reducer";
-import {useEffect} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {changeTaskStatusTC, deleteTaskTC} from "./components/task-reducer";
 import {TaskStatuses} from "./api/todolist-api";
 
