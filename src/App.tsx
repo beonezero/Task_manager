@@ -9,8 +9,8 @@ import {
     removeTodolistTC,
     updateTodolistTC
 } from "./components/todolist-reducer";
-import {ChangeEvent, useEffect, useState} from "react";
-import {changeTaskStatusTC, deleteTaskTC} from "./components/task-reducer";
+import {useEffect} from "react";
+import {updateTaskTC, deleteTaskTC} from "./components/task-reducer";
 import {TaskStatuses} from "./api/todolist-api";
 
 export const App = () => {
@@ -32,12 +32,13 @@ export const App = () => {
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
-        dispatch(changeTaskStatusTC(todolistId, taskId, checked ? TaskStatuses.Completed : TaskStatuses.New))
+        let status = checked ? TaskStatuses.Completed : TaskStatuses.New
+        dispatch(updateTaskTC(todolistId, taskId, {status}))
     }
 
     useEffect(() => {
         dispatch(fetchTodolistsTC())
-    },[])
+    },[dispatch])
 
     return <div className={s.App}>
         <div className={s.AddTask}>
@@ -47,8 +48,8 @@ export const App = () => {
         <div className={s.Todolist}>
             {todolists.map(td => {
                 let allTodolistTasks = tasks[td.id]
-                const changeTasksTitle = (taskId: string, value: string) => {
-
+                const changeTasksTitle = (taskId: string, title: string) => {
+                    dispatch(updateTaskTC(td.id, taskId, {title}))
                 }
                 const changeTodolistTitle = (value: string) => {
                     dispatch(updateTodolistTC(td.id, value))

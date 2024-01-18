@@ -27,7 +27,7 @@ import axios, {AxiosResponse} from "axios";
         createTask (todolistId: string,title: string) {
             return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
         },
-        updateTask (todolistId: string, taskId: string, model: TaskType) {
+        updateTask (todolistId: string, taskId: string, model: UpdateTaskModelType) {
             return instance.put(`todo-lists/{${todolistId}}/tasks/{${taskId}}`, model)
         }
     }
@@ -60,6 +60,15 @@ export type TodolistType = {
     title: string,
     addedDate: string,
     order: number
+}
+
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: number
+    startDate: string
+    deadline: string
 }
 
 

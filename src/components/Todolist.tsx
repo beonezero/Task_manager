@@ -11,7 +11,7 @@ export const Todolist = (props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(fetchTasksTC(props.todolistId))
-    },[])
+    },[dispatch])
 
     const onClickButtonHandler = () => {
         props.removeTodolist(props.todolistId)
