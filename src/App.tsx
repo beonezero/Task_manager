@@ -1,72 +1,26 @@
-import {Todolist} from "./components/Todolist";
 import s from "./App.module.css"
-import {AddItemForm} from "./components/AddItemForm";
-import {useAppDispatch, useAppSelector} from "./store/store";
-import {
-    addTodolistTC,
-    fetchTodolistsTC,
-    FilterType,
-    removeTodolistTC,
-    updateTodolistTC
-} from "./components/todolist-reducer";
-import {useEffect} from "react";
-import {updateTaskTC, deleteTaskTC} from "./components/task-reducer";
-import {TaskStatuses} from "./api/todolist-api";
+import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
+import {TodolistList} from "./features/TodolistList/TodolistList";
 
 export const App = () => {
-    const dispatch = useAppDispatch()
-    const todolists = useAppSelector(store => store.todolists)
-    const tasks = useAppSelector(store => store.tasks)
-
-    const addTodolist = (title: string) => {
-        dispatch(addTodolistTC(title))
-    }
-    const removeTodolist = (todolistId: string) => {
-        dispatch(removeTodolistTC(todolistId))
-    }
-    const removeTask = (todolistId: string, taskId: string) => {
-        dispatch(deleteTaskTC(todolistId, taskId))
-    }
-
-    const changeFilter = (todolistId: string, filter: FilterType) => {
-    }
-
-    const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
-        let status = checked ? TaskStatuses.Completed : TaskStatuses.New
-        dispatch(updateTaskTC(todolistId, taskId, {status}))
-    }
-
-    useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    },[dispatch])
-
     return <div className={s.App}>
-        <div className={s.AddTask}>
-            <h2>Add Task</h2>
-            <AddItemForm buttonName={"+"} addItem={addTodolist}/>
-        </div>
-        <div className={s.Todolist}>
-            {todolists.map(td => {
-                let allTodolistTasks = tasks[td.id]
-                const changeTasksTitle = (taskId: string, title: string) => {
-                    dispatch(updateTaskTC(td.id, taskId, {title}))
-                }
-                const changeTodolistTitle = (value: string) => {
-                    dispatch(updateTodolistTC(td.id, value))
-                }
-                return <Todolist key={td.id}
-                                 todolist={td}
-                                 todolistId={td.id}
-                                 removeTodolist={removeTodolist}
-                                 tasks={allTodolistTasks}
-                                 removeTask={removeTask}
-                                 changeFilter={changeFilter}
-                                 changeTaskStatus={changeTaskStatus}
-                                 changeTasksTitle={changeTasksTitle}
-                                 changeTodolistTitle = {changeTodolistTitle}
-                />
-            })}
-        </div>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                        <Menu />
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+        </Box>
+        <Container fixed>
+            <TodolistList/>
+        </Container>
     </div>
 }
 

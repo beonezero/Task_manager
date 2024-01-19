@@ -1,4 +1,4 @@
-import {todolistsAPI, TodolistType} from "../api/todolist-api";
+import {todolistsAPI, TodolistType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 
 const initialState: TodolistDomainType[] = []
