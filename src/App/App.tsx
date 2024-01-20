@@ -9,9 +9,12 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
 import {TodolistList} from "../features/TodolistList/TodolistList";
+import {useAppSelector} from "./store";
+import {RequestStatusType} from "./app-reducer";
 
 
 export const App = () => {
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
     return <div className={s.App}>
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -26,7 +29,7 @@ export const App = () => {
                 </Toolbar>
             </AppBar>
         </Box>
-        <LinearProgress color="error" />
+        {status === "loading" && <LinearProgress color="error" />}
         <Container fixed>
             <TodolistList/>
         </Container>
