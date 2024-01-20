@@ -3,7 +3,7 @@ import AddBox from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 
-export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
+export const AddItemForm = ({addItem, disabled}: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
 
@@ -34,8 +34,9 @@ export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
                        onKeyPress={onKeyDownHandler}
                        label="TITLE"
                        helperText={error}
+                       disabled={disabled}
             />
-            <IconButton color="primary" onClick={onClickButtonHandler}>
+            <IconButton color="primary" onClick={onClickButtonHandler} disabled={disabled}>
                 <AddBox/>
             </IconButton>
         </div>
@@ -46,4 +47,5 @@ export const AddItemForm = ({addItem}: AddItemFormPropsType) => {
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }

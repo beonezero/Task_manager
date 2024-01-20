@@ -25,10 +25,10 @@ import axios, {AxiosResponse} from "axios";
             return instance.delete<ResponseType>(`todo-lists/{${todolistId}}/tasks/{${taskId}}`)
         },
         createTask (todolistId: string,title: string) {
-            return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
+            return instance.post<null, AxiosResponse<ResponseType<{item: TaskType}>>, {title: string}>(`todo-lists/{${todolistId}}/tasks`, {title: title})
         },
         updateTask (todolistId: string, taskId: string, model: UpdateTaskModelType) {
-            return instance.put(`todo-lists/{${todolistId}}/tasks/{${taskId}}`, model)
+            return instance.put<null, AxiosResponse<ResponseType<{item: TaskType}>>, UpdateTaskModelType>(`todo-lists/{${todolistId}}/tasks/{${taskId}}`, model)
         }
     }
 

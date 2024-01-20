@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from "../../App/store";
 import {
     addTodolistTC,
-    changeTodolistFilterAC,
+    changeTodolistFilter,
     fetchTodolistsTC,
     FilterType,
     removeTodolistTC,
@@ -31,7 +31,7 @@ export const TodolistList = () => {
     }
 
     const changeFilter = (todolistId: string, filter: FilterType) => {
-        dispatch(changeTodolistFilterAC(todolistId, filter))
+        dispatch(changeTodolistFilter(todolistId, filter))
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
@@ -65,6 +65,7 @@ export const TodolistList = () => {
                             todolistId={td.id}
                             removeTodolist={removeTodolist}
                             tasks={allTodolistTasks}
+                            entityStatus={td.entityStatus}
                             removeTask={removeTask}
                             changeFilter={changeFilter}
                             changeTaskStatus={changeTaskStatus}

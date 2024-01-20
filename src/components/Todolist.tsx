@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Delete from "@mui/icons-material/Delete";
 import {Task} from "../features/TodolistList/Task/Task";
+import {RequestStatusType} from "../App/app-reducer";
 
 export const Todolist = (props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
@@ -52,12 +53,12 @@ export const Todolist = (props: TodolistPropsType) => {
     return <div>
         <h2>
             <AditableSpan value={props.todolist.title} changeTitle={changeTodolistTitleHandler}/>
-            <IconButton onClick={onClickButtonHandler}>
+            <IconButton onClick={onClickButtonHandler} disabled={props.entityStatus === "loading"}>
                 <Delete/>
             </IconButton>
         </h2>
 
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} disabled={props.entityStatus === "loading"}/>
         <div>
             {tasksForTodolist?.map(task => {
                 return <Task key={task.id}
@@ -91,6 +92,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
 export type TodolistPropsType = {
     todolist: TodolistDomainType
+    entityStatus: RequestStatusType
     todolistId: string
     removeTodolist: (todolistId: string) => void
     tasks: TaskType[]
