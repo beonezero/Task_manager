@@ -1,4 +1,5 @@
 import {ChangeEvent, useState} from "react";
+import TextField from "@mui/material/TextField";
 
 export const AditableSpan = (props: AditableSpanPropsType) => {
     const [doubleClick, setDoubleClick] = useState<boolean>(false)
@@ -19,7 +20,7 @@ export const AditableSpan = (props: AditableSpanPropsType) => {
 
     return <>
         {doubleClick
-            ? <input autoFocus={true}  value={title} onChange={onChangeInputHandler} onBlur={onBlurInputHandler}/>
+            ? <TextField autoFocus={true} value={title} onChange={onChangeInputHandler} onBlur={onBlurInputHandler} id="standard-basic" label="Standard" variant="standard" />
             : <span onDoubleClick={onDoubleClickSpanHandler}>{props.value}</span>}
     </>
 }

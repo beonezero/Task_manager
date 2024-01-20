@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from "../../store/store";
+import {useAppDispatch, useAppSelector} from "../../App/store";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -12,7 +12,8 @@ import {TaskStatuses} from "../../api/todolist-api";
 import {useEffect} from "react";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "../../components/Todolist";
-import {Grid, Paper} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 export const TodolistList = () => {
     const dispatch = useAppDispatch()

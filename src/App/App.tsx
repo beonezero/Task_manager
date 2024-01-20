@@ -1,7 +1,15 @@
 import s from "./App.module.css"
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
-import {Menu} from "@mui/icons-material";
-import {TodolistList} from "./features/TodolistList/TodolistList";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/icons-material/Menu";
+import LinearProgress from "@mui/material/LinearProgress";
+import {TodolistList} from "../features/TodolistList/TodolistList";
+
 
 export const App = () => {
     return <div className={s.App}>
@@ -18,6 +26,7 @@ export const App = () => {
                 </Toolbar>
             </AppBar>
         </Box>
+        <LinearProgress color="error" />
         <Container fixed>
             <TodolistList/>
         </Container>

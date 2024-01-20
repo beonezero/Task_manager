@@ -4,24 +4,31 @@ import {useEffect} from "react";
 import {AditableSpan} from "./AditableSpan";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
 import {createTaskTC, fetchTasksTC} from "../features/TodolistList/task-reducer";
-import {useAppDispatch} from "../store/store";
-import {Button, IconButton} from "@mui/material";
-import {Delete} from "@mui/icons-material";
+import {useAppDispatch} from "../App/store";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Delete from "@mui/icons-material/Delete";
 import {Task} from "../features/TodolistList/Task/Task";
 
 export const Todolist = (props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(fetchTasksTC(props.todolistId))
-    },[props.todolistId, dispatch])
+    }, [props.todolistId, dispatch])
 
     const onClickButtonHandler = () => {
         props.removeTodolist(props.todolistId)
     }
 
-    const onAllClickHandler = () => {props.changeFilter(props.todolistId, "all")}
-    const onActiveClickHandler = () => {props.changeFilter(props.todolistId, "active")}
-    const onCompletedClickHandler = () => {props.changeFilter(props.todolistId, "completed")}
+    const onAllClickHandler = () => {
+        props.changeFilter(props.todolistId, "all")
+    }
+    const onActiveClickHandler = () => {
+        props.changeFilter(props.todolistId, "active")
+    }
+    const onCompletedClickHandler = () => {
+        props.changeFilter(props.todolistId, "completed")
+    }
 
     const addTask = (title: string) => {
         dispatch(createTaskTC(props.todolistId, title))
@@ -33,11 +40,11 @@ export const Todolist = (props: TodolistPropsType) => {
 
     let tasksForTodolist = props.tasks
 
-    if (props.todolist.filter === "active"){
+    if (props.todolist.filter === "active") {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
     }
 
-    if (props.todolist.filter === "completed"){
+    if (props.todolist.filter === "completed") {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
@@ -51,14 +58,17 @@ export const Todolist = (props: TodolistPropsType) => {
         </h2>
 
         <AddItemForm addItem={addTask}/>
-        <ul>
-            <Task tasks={tasksForTodolist}
-                  todolistId={props.todolistId}
-                  changeTaskStatus={props.changeTaskStatus}
-                  changeTasksTitle={props.changeTasksTitle}
-                  removeTask={props.removeTask}
-            />
-        </ul>
+        <div>
+            {tasksForTodolist?.map(task => {
+                return <Task key={task.id}
+                             task={task}
+                             todolistId={props.todolistId}
+                             changeTaskStatus={props.changeTaskStatus}
+                             changeTasksTitle={props.changeTasksTitle}
+                             removeTask={props.removeTask}
+                />
+            })}
+        </div>
         <div style={{paddingTop: '10px'}}>
             <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
                     onClick={onAllClickHandler}

@@ -22,7 +22,7 @@ import axios, {AxiosResponse} from "axios";
             return instance.get<getTasksResponseType>(`todo-lists/{${todolistId}}/tasks`)
         },
         removeTask (todolistId: string, taskId: string) {
-            return instance.delete(`todo-lists/{${todolistId}}/tasks/{${taskId}}`)
+            return instance.delete<ResponseType>(`todo-lists/{${todolistId}}/tasks/{${taskId}}`)
         },
         createTask (todolistId: string,title: string) {
             return instance.post(`todo-lists/{${todolistId}}/tasks`, {title: title})
