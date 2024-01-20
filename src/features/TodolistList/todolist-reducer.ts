@@ -12,6 +12,9 @@ export const TodolistReducer = (state: TodolistDomainType[] = initialState, acti
             return state.filter(td => td.id !== action.todolistId)
         case "TODOLIST/UPDATE-TODOLIST":
             return state.map(td => td.id === action.todolistId ? {...td, title: action.title} : td)
+        case "TODOLIST/CHANGE-FILTER": {
+            return state.map((td) => td.id === action.todolistId ? {...td, filter: action.filter} : td)
+        }
         default:
             return state
     }
@@ -22,6 +25,7 @@ export const setTodolistAC = (todolists: TodolistType[]) => ({type: "TODOLIST/SE
 export const addTodolistAC = (todolist: InitialTodolistsStateType) => ({type: "TODOLIST/ADD-TODOLIST", todolist}) as const
 export const removeTodolistAC = (todolistId: string) => ({type: "TODOLIST/REMOVE-TODOLIST", todolistId}) as const
 export const updateTodolistAC = (todolistId: string, title: string) => ({type: "TODOLIST/UPDATE-TODOLIST", todolistId, title}) as const
+export const changeTodolistFilterAC = (todolistId: string, filter: FilterType) => ({type: "TODOLIST/CHANGE-FILTER", todolistId, filter}) as const
 
 export const fetchTodolistsTC = () => (dispatch: Dispatch) => {
     todolistsAPI.getTodolist()
@@ -68,6 +72,7 @@ export type TodolistsReducerActionsType = SetTodolistType
 
 export type SetTodolistType = ReturnType<typeof setTodolistAC> | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof removeTodolistAC> | ReturnType<typeof updateTodolistAC>
+    | ReturnType<typeof changeTodolistFilterAC>
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 

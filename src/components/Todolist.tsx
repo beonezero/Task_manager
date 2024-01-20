@@ -1,11 +1,13 @@
 import {AddItemForm} from "./AddItemForm";
-import s from "./Todolist.module.css"
-import {FilterType, InitialTodolistsStateType} from "../features/TodolistList/todolist-reducer";
-import {ChangeEvent, useEffect} from "react";
+import {FilterType, TodolistDomainType} from "../features/TodolistList/todolist-reducer";
+import {useEffect} from "react";
 import {AditableSpan} from "./AditableSpan";
 import {TaskStatuses, TaskType} from "../api/todolist-api";
 import {createTaskTC, fetchTasksTC} from "../features/TodolistList/task-reducer";
 import {useAppDispatch} from "../store/store";
+import {Button, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import {Task} from "../features/TodolistList/Task/Task";
 
 export const Todolist = (props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
@@ -29,41 +31,56 @@ export const Todolist = (props: TodolistPropsType) => {
         props.changeTodolistTitle(props.todolistId, title)
     }
 
-    return <div className={s.Todos}>
+    let tasksForTodolist = props.tasks
+
+    if (props.todolist.filter === "active"){
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.New)
+    }
+
+    if (props.todolist.filter === "completed"){
+        tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
+    }
+
+
+    return <div>
         <h2>
             <AditableSpan value={props.todolist.title} changeTitle={changeTodolistTitleHandler}/>
-            <button onClick={onClickButtonHandler}>-</button>
+            <IconButton onClick={onClickButtonHandler}>
+                <Delete/>
+            </IconButton>
         </h2>
 
-        <AddItemForm buttonName={"add"} addItem={addTask}/>
+        <AddItemForm addItem={addTask}/>
         <ul>
-        {props.tasks?.map(t => {
-            const removeTaskHandler = () => {
-                props.removeTask(props.todolistId, t.id)
-            }
-            const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                props.changeTaskStatus(props.todolistId, t.id, e.currentTarget.checked)
-            }
-            const changeTaskTitle = (value: string) => {
-                props.changeTasksTitle(props.todolistId, t.id, value)
-            }
-            return <li key={t.id}>
-                <input type="checkbox" onChange={onChangeInputHandler} checked={t.status === TaskStatuses.Completed}/>
-                <AditableSpan value={t.title} changeTitle={changeTaskTitle}/>
-                <button onClick={removeTaskHandler}>x</button>
-            </li>
-        })}
+            <Task tasks={tasksForTodolist}
+                  todolistId={props.todolistId}
+                  changeTaskStatus={props.changeTaskStatus}
+                  changeTasksTitle={props.changeTasksTitle}
+                  removeTask={props.removeTask}
+            />
         </ul>
-        <button onClick={onAllClickHandler}>All</button>
-        <button onClick={onActiveClickHandler}>Active</button>
-        <button onClick={onCompletedClickHandler}>Completed</button>
+        <div style={{paddingTop: '10px'}}>
+            <Button variant={props.todolist.filter === 'all' ? 'outlined' : 'text'}
+                    onClick={onAllClickHandler}
+                    color={'inherit'}
+            >All
+            </Button>
+            <Button variant={props.todolist.filter === 'active' ? 'outlined' : 'text'}
+                    onClick={onActiveClickHandler}
+                    color={'primary'}>Active
+            </Button>
+            <Button variant={props.todolist.filter === 'completed' ? 'outlined' : 'text'}
+                    onClick={onCompletedClickHandler}
+                    color={'secondary'}>Completed
+            </Button>
+        </div>
     </div>
 }
 
 // type
 
 export type TodolistPropsType = {
-    todolist: InitialTodolistsStateType
+    todolist: TodolistDomainType
     todolistId: string
     removeTodolist: (todolistId: string) => void
     tasks: TaskType[]

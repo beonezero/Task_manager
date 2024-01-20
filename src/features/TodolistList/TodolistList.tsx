@@ -1,5 +1,12 @@
 import {useAppDispatch, useAppSelector} from "../../store/store";
-import {addTodolistTC, fetchTodolistsTC, FilterType, removeTodolistTC, updateTodolistTC} from "./todolist-reducer";
+import {
+    addTodolistTC,
+    changeTodolistFilterAC,
+    fetchTodolistsTC,
+    FilterType,
+    removeTodolistTC,
+    updateTodolistTC
+} from "./todolist-reducer";
 import {deleteTaskTC, updateTaskTC} from "./task-reducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {useEffect} from "react";
@@ -23,6 +30,7 @@ export const TodolistList = () => {
     }
 
     const changeFilter = (todolistId: string, filter: FilterType) => {
+        dispatch(changeTodolistFilterAC(todolistId, filter))
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
@@ -43,8 +51,7 @@ export const TodolistList = () => {
 
     return <>
         <Grid container style={{padding: '20px'}}>
-            <h2>Add Task</h2>
-            <AddItemForm buttonName={"+"} addItem={addTodolist}/>
+            <AddItemForm addItem={addTodolist}/>
         </Grid>
         <Grid container spacing={3}>
             {todolists.map(td => {
