@@ -1,50 +1,26 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert, { AlertProps } from '@mui/material/Alert'
 
-export const SimpleSnackbar = () => {
-    const [open, setOpen] = React.useState(false);
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
 
-    const handleClick = () => {
-        setOpen(true);
-    };
+export const ErrorSnackbar = () => {
+    const [open, setOpen] = useState(true)
 
-    const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
-
-        setOpen(false);
-    };
-
-    const action = (
-        <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClose}>
-                UNDO
-            </Button>
-            <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-            >
-                <CloseIcon fontSize="small" />
-            </IconButton>
-        </React.Fragment>
-    );
-
+        setOpen(false)
+    }
     return (
-        <div>
-            <Button onClick={handleClick}>Open Snackbar</Button>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                message="Note archived"
-                action={action}
-            />
-        </div>
-    );
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity='error' sx={{width: '100%'}}>
+                Error message 😠
+            </Alert>
+        </Snackbar>
+    )
 }
