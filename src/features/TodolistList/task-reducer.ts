@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
 import {removeTodolist, setTodolist} from "./todolist-reducer";
 import {setAppError, SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TaskStateType = {}
 
@@ -75,17 +76,11 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch: Di
                 dispatch(setAppStatus("succeeded"))
                 dispatch(createTask(res.data.data.item))
             } else {
-                dispatch(setAppStatus("succeeded"))
-                if (res.data.messages.length) {
-                    dispatch(setAppError(res.data.messages[0]))
-                } else {
-                    dispatch(setAppError("some error add task"))
-                }
+                handleServerAppError<{item: TaskType}>(dispatch, res.data)
             }
         })
         .catch((e) => {
-            dispatch(setAppError(e.message))
-            dispatch(setAppStatus("failed"))
+            handleServerNetworkError(dispatch, e)
         })
 }
 
