@@ -1,7 +1,7 @@
 import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
-import {removeTodolist, setTodolist} from "./todolist-reducer";
+import {addTodolistType, removeTodolist, setTodolist} from "./todolist-reducer";
 import {setAppError, SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
@@ -22,6 +22,9 @@ export const taskReducer = (state: TaskStateType = initialState, action: TasksAc
                 ...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)
             }
         }
+        case "TASK/SET-TASKS": {
+            return {...state, [action.todolistId]: action.tasks}
+        }
         case "TODOLIST/REMOVE-TODOLIST": {
             const copyState = {...state}
             delete copyState[action.todolistId]
@@ -34,8 +37,8 @@ export const taskReducer = (state: TaskStateType = initialState, action: TasksAc
             })
             return copyState
         }
-        case "TASK/SET-TASKS": {
-            return {...state, [action.todolistId]: action.tasks}
+        case "TODOLIST/ADD-TODOLIST": {
+            return {...state, [action.todolist.id]: []}
         }
         default:
             return state
@@ -55,7 +58,6 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
             dispatch(setTasks(todolistId, res.data.items))
         })
 }
-
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatus("loading"))
     todolistsAPI.removeTask(todolistId, taskId)
@@ -83,7 +85,6 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch: Di
             handleServerNetworkError(dispatch, e)
         })
 }
-
 export const updateTaskTC = (todolistId: string, taskId: string, model: ModelDomainType) =>
     (dispatch: Dispatch, getState: () => AppRootStateType) => {
         dispatch(setAppStatus("loading"))
@@ -144,4 +145,4 @@ export type ModelDomainType = {
 
 export type TasksActionType = ReturnType<typeof setTasks> | ReturnType<typeof setTodolist>
     | ReturnType<typeof removeTodolist> | ReturnType<typeof removeTask> | ReturnType<typeof createTask>
-    | ReturnType<typeof changeTaskStatus> | SetAppStatusType | SetAppErrorType
+    | ReturnType<typeof changeTaskStatus> | SetAppStatusType | SetAppErrorType | addTodolistType

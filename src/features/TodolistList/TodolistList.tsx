@@ -11,14 +11,16 @@ import {deleteTaskTC, updateTaskTC} from "./task-reducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {useEffect} from "react";
 import {AddItemForm} from "../../components/AddItemForm";
-import {Todolist} from "../../components/Todolist";
+import {Todolist} from "./Todolist/Todolist";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import {Navigate} from "react-router-dom";
 
 export const TodolistList = () => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(store => store.todolists)
     const tasks = useAppSelector(store => store.tasks)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
     const addTodolist = (title: string) => {
         dispatch(addTodolistTC(title))
@@ -49,6 +51,11 @@ export const TodolistList = () => {
     useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [dispatch])
+
+    if (!isLoggedIn){
+        return <Navigate to={"login"}/>
+    }
+
 
     return <>
         <Grid container style={{padding: '20px'}}>

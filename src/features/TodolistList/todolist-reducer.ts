@@ -85,7 +85,7 @@ export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => 
         })
         .catch((e) => {
             dispatch(setAppError(e.message))
-            dispatch(setEntityStatus(todolistId, "idle"))
+            dispatch(setEntityStatus(todolistId, "failed"))
             dispatch(setAppStatus("failed"))
         })
 }
@@ -114,7 +114,9 @@ export type InitialTodolistsStateType = {
     order: number
 }
 
-export type TodolistActionType = ReturnType<typeof setTodolist> | ReturnType<typeof addTodolistAC>
+export type addTodolistType = ReturnType<typeof addTodolistAC>
+
+export type TodolistActionType = ReturnType<typeof setTodolist> | addTodolistType
     | ReturnType<typeof removeTodolist> | ReturnType<typeof updateTodolist>
     | ReturnType<typeof changeTodolistFilter> | SetAppStatusType | SetAppErrorType
     | ReturnType<typeof setEntityStatus>

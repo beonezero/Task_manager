@@ -12,10 +12,13 @@ import {TodolistList} from "../features/TodolistList/TodolistList";
 import {useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "../features/Login/Login";
 
 
 export const App = () => {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
     return <div className={s.App}>
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -31,9 +34,14 @@ export const App = () => {
             </AppBar>
         </Box>
         {status === "loading" && <LinearProgress color="error" />}
+        <ErrorSnackbar/>
         <Container fixed>
-            <ErrorSnackbar/>
-            <TodolistList/>
+            <Routes>
+                <Route path={"/"} element={<TodolistList/>}/>
+                <Route path={"login"} element={<Login/>}/>
+                <Route path={"404"} element={<div><h1>404: PAGE NOT FOUND</h1></div>}/>
+                <Route path={"*"} element={<Navigate to={"404"}/>}/>
+            </Routes>
         </Container>
     </div>
 }
