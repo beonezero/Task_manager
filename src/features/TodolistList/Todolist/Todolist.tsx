@@ -1,9 +1,8 @@
 import {AddItemForm} from "../../../components/AddItemForm";
 import {FilterType, TodolistDomainType} from "../todolist-reducer";
-import {useEffect} from "react";
 import {AditableSpan} from "../../../components/AditableSpan";
 import {TaskStatuses, TaskType} from "../../../api/todolist-api";
-import {createTaskTC, fetchTasksTC} from "../task-reducer";
+import {createTaskTC} from "../task-reducer";
 import {useAppDispatch} from "../../../App/store";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -13,9 +12,6 @@ import {RequestStatusType} from "../../../App/app-reducer";
 
 export const Todolist = (props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(fetchTasksTC(props.todolistId))
-    }, [props.todolistId, dispatch])
 
     const onClickButtonHandler = () => {
         props.removeTodolist(props.todolistId)
@@ -88,7 +84,7 @@ export const Todolist = (props: TodolistPropsType) => {
     </div>
 }
 
-// type
+// types
 
 export type TodolistPropsType = {
     todolist: TodolistDomainType

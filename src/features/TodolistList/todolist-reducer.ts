@@ -1,6 +1,7 @@
 import {todolistsAPI, TodolistType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppError, SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
+import {fetchTasksTC} from "./task-reducer";
 
 const initialState: TodolistDomainType[] = []
 export const TodolistReducer = (state: TodolistDomainType[] = initialState, action: TodolistActionType): TodolistDomainType[] => {
@@ -18,6 +19,9 @@ export const TodolistReducer = (state: TodolistDomainType[] = initialState, acti
         }
         case "TODOLIST/SET-ENTITY-STATUS": {
             return state.map(td => td.id === action.todolistId ? {...td, entityStatus: action.status} : td)
+        }
+        case "TODOLIST/CLEAR-STATE": {
+            return []
         }
         default:
             return state
@@ -48,13 +52,21 @@ export const setEntityStatus = (todolistId: string, status: RequestStatusType) =
     status
 }) as const
 
-export const fetchTodolistsTC = () => (dispatch: Dispatch<TodolistActionType>) => {
+export const clearState = () => ({type: "TODOLIST/CLEAR-STATE"}) as const
+
+export const fetchTodolistsTC = () => (dispatch: any) => {
     todolistsAPI.getTodolist()
         .then((res) => {
                 dispatch(setTodolist(res.data))
                 dispatch(setAppStatus("succeeded"))
+                return res.data
             }
         )
+        .then((res) => {
+            res.forEach(tl => {
+                dispatch(fetchTasksTC(tl.id))
+            })
+        })
         .catch((e) => {
             dispatch(setAppError(e.message))
             dispatch(setAppStatus("failed"))
@@ -116,10 +128,12 @@ export type InitialTodolistsStateType = {
 
 export type addTodolistType = ReturnType<typeof addTodolistAC>
 
+export type clearStateType = ReturnType<typeof clearState>
+
 export type TodolistActionType = ReturnType<typeof setTodolist> | addTodolistType
     | ReturnType<typeof removeTodolist> | ReturnType<typeof updateTodolist>
     | ReturnType<typeof changeTodolistFilter> | SetAppStatusType | SetAppErrorType
-    | ReturnType<typeof setEntityStatus>
+    | ReturnType<typeof setEntityStatus> | clearStateType
 
 export type TodolistDomainType = TodolistType & {
     filter: FilterType,

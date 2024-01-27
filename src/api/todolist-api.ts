@@ -9,6 +9,12 @@ import {LoginDataType} from "../features/Login/Login";
     export const authAPI = {
         login(data: LoginDataType){
            return instance.post<null, AxiosResponse<ResponseType<{userId: number}>>, LoginDataType>("auth/login", data)
+        },
+        me(){
+            return instance.get<ResponseType<UserType>>("auth/me")
+        },
+        logout(){
+            return instance.delete<ResponseType>("auth/login")
         }
     }
 
@@ -40,6 +46,12 @@ import {LoginDataType} from "../features/Login/Login";
     }
 
 //types
+
+export type UserType = {
+    id: number
+    email: string
+    login: string
+}
 
 export enum TaskStatuses {
     New = 0,

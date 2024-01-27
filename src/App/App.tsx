@@ -9,15 +9,36 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/icons-material/Menu";
 import LinearProgress from "@mui/material/LinearProgress";
 import {TodolistList} from "../features/TodolistList/TodolistList";
-import {useAppSelector} from "./store";
+import {useAppDispatch, useAppSelector} from "./store";
 import {RequestStatusType} from "./app-reducer";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
+import {useEffect} from "react";
+import {logoutTC, meTC} from "../auth/auth-reducer";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export const App = () => {
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(meTC())
+    },[])
+
+    const handleLogout = () => {
+        dispatch(logoutTC())
+    }
+
+    if (!isInitialized){
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return <div className={s.App}>
         <Box sx={{ flexGrow: 1 }}>
@@ -29,7 +50,7 @@ export const App = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={handleLogout}>Log out</Button>}
                 </Toolbar>
             </AppBar>
         </Box>
