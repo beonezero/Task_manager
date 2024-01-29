@@ -2,7 +2,7 @@ import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../a
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
 import {addTodolistType, clearStateType, removeTodolist, setTodolist} from "./todolist-reducer";
-import {setAppError, SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
+import {SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TaskStateType = {}
@@ -64,13 +64,16 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatus("loading"))
     todolistsAPI.removeTask(todolistId, taskId)
-        .then(() => {
-            dispatch(setAppStatus("succeeded"))
-            dispatch(removeTask(todolistId, taskId))
+        .then((res) => {
+            if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
+                dispatch(setAppStatus("succeeded"))
+                dispatch(removeTask(todolistId, taskId))
+            } else {
+                handleServerAppError(dispatch, res.data)
+            }
         })
         .catch((e) => {
-            dispatch(setAppError(e.message))
-            dispatch(setAppStatus("failed"))
+            handleServerNetworkError(dispatch, e)
         })
 }
 export const createTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
@@ -81,7 +84,7 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch: Di
                 dispatch(setAppStatus("succeeded"))
                 dispatch(createTask(res.data.data.item))
             } else {
-                handleServerAppError<{item: TaskType}>(dispatch, res.data)
+                handleServerAppError<{ item: TaskType }>(dispatch, res.data)
             }
         })
         .catch((e) => {
@@ -105,29 +108,22 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: ModelDom
             }
             todolistsAPI.updateTask(todolistId, taskId, apiModel)
                 .then((res) => {
-                    if (res.data.resultCode === RESULT_CODE.SUCCEEDED){
+                    if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
                         dispatch(setAppStatus("succeeded"))
                         dispatch(changeTaskStatus(res.data.data.item))
                     } else {
-                        dispatch(setAppStatus("succeeded"))
-                        if (res.data.messages.length){
-                            dispatch(setAppError(res.data.messages[0]))
-                        } else {
-                            dispatch(setAppError("some error update task"))
-                        }
+                        handleServerAppError(dispatch, res.data)
                     }
-
                 })
                 .catch((e) => {
-                    dispatch(setAppError(e.message))
-                    dispatch(setAppStatus("failed"))
+                    handleServerNetworkError(dispatch, e)
                 })
         }
     }
 
 //types
 
-enum RESULT_CODE {
+export enum RESULT_CODE {
     SUCCEEDED = 0,
     FAILED = 1,
     RECAPTCHA_FAILED = 10

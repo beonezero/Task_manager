@@ -15,7 +15,7 @@ import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {useEffect} from "react";
-import {logoutTC, meTC} from "../auth/auth-reducer";
+import {logoutTC, meTC} from "../features/Login/auth-reducer";
 import CircularProgress from "@mui/material/CircularProgress";
 
 

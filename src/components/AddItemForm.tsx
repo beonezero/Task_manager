@@ -3,7 +3,7 @@ import AddBox from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 
-export const AddItemForm = ({addItem, disabled}: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({addItem, disabled}: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
 
@@ -12,7 +12,9 @@ export const AddItemForm = ({addItem, disabled}: AddItemFormPropsType) => {
             addItem(title.trim())
             setTitle("")
             setError("")
-        } else {setError("Error")}
+        } else {
+            setError("Error")
+        }
     }
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +43,7 @@ export const AddItemForm = ({addItem, disabled}: AddItemFormPropsType) => {
             </IconButton>
         </div>
     );
-}
+})
 
 //types
 

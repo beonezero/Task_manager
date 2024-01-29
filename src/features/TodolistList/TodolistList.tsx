@@ -1,3 +1,4 @@
+import React from "react"
 import {useAppDispatch, useAppSelector} from "../../App/store";
 import {
     addTodolistTC,
@@ -16,7 +17,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Navigate} from "react-router-dom";
 
-export const TodolistList = () => {
+export const TodolistList = React.memo(() => {
     const dispatch = useAppDispatch()
     const todolists = useAppSelector(store => store.todolists)
     const tasks = useAppSelector(store => store.tasks)
@@ -84,4 +85,4 @@ export const TodolistList = () => {
             })}
         </Grid>
     </>
-}
+})

@@ -1,3 +1,4 @@
+import React from "react"
 import {AddItemForm} from "../../../components/AddItemForm";
 import {FilterType, TodolistDomainType} from "../todolist-reducer";
 import {AditableSpan} from "../../../components/AditableSpan";
@@ -10,7 +11,7 @@ import Delete from "@mui/icons-material/Delete";
 import {Task} from "../Task/Task";
 import {RequestStatusType} from "../../../App/app-reducer";
 
-export const Todolist = (props: TodolistPropsType) => {
+export const Todolist = React.memo((props: TodolistPropsType) => {
     const dispatch = useAppDispatch()
 
     const onClickButtonHandler = () => {
@@ -82,7 +83,7 @@ export const Todolist = (props: TodolistPropsType) => {
             </Button>
         </div>
     </div>
-}
+})
 
 // types
 
