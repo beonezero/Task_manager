@@ -24,12 +24,12 @@ export const authReducer = slice.reducer
 export const {setAuthIsLoggedIn} = slice.actions
 
 export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     try {
         const res = await authAPI.login(data)
         if (res.data.resultCode === 0){
             dispatch(setAuthIsLoggedIn({value: true}))
-            dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus({status: "succeeded"}))
         } else {
             handleServerAppError<{userId: number}>(dispatch, res.data)
         }
@@ -39,29 +39,29 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
 }
 
 export const meTC = () => async (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     try {
         const res = await authAPI.me()
         if (res.data.resultCode === 0){
             dispatch(setAuthIsLoggedIn({value: true}))
-            dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus({status: "succeeded"}))
         } else {
             handleServerAppError<UserType>(dispatch, res.data)
         }
     } catch (e) {
         handleServerNetworkError(dispatch, e as {message: string})
     } finally {
-        dispatch(setAppIsInitialized(true))
+        dispatch(setAppIsInitialized({initialized: true}))
     }
 }
 
 export const logoutTC = () => async (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     try {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0){
             dispatch(setAuthIsLoggedIn({value: false}))
-            dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus({status: "succeeded"}))
             dispatch(clearState())
         } else {
             handleServerAppError(dispatch, res.data)

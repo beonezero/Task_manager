@@ -17,7 +17,7 @@ export const ErrorSnackbar = React.memo(() => {
         if (reason === 'clickaway') {
             return
         }
-        dispatch(setAppError(null))
+        dispatch(setAppError({error: null}))
     }
     return (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={handleClose}>

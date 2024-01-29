@@ -2,7 +2,7 @@ import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../../a
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../App/store";
 import {addTodolistType, clearStateType, removeTodolist, setTodolist} from "./todolist-reducer";
-import {SetAppErrorType, setAppStatus, SetAppStatusType} from "../../App/app-reducer";
+import {setAppStatus} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TaskStateType = {}
@@ -54,19 +54,19 @@ const createTask = (task: TaskType) => ({type: "TASK/CREATE-TASK", task}) as con
 const changeTaskStatus = (task: TaskType) => ({type: "TASK/UPDATE-TASK", task}) as const
 
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
-            dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus({status: "succeeded"}))
             dispatch(setTasks(todolistId, res.data.items))
         })
 }
 export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     todolistsAPI.removeTask(todolistId, taskId)
         .then((res) => {
             if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-                dispatch(setAppStatus("succeeded"))
+                dispatch(setAppStatus({status: "succeeded"}))
                 dispatch(removeTask(todolistId, taskId))
             } else {
                 handleServerAppError(dispatch, res.data)
@@ -77,11 +77,11 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
         })
 }
 export const createTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
-    dispatch(setAppStatus("loading"))
+    dispatch(setAppStatus({status: "loading"}))
     todolistsAPI.createTask(todolistId, title)
         .then((res) => {
             if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-                dispatch(setAppStatus("succeeded"))
+                dispatch(setAppStatus({status: "succeeded"}))
                 dispatch(createTask(res.data.data.item))
             } else {
                 handleServerAppError<{ item: TaskType }>(dispatch, res.data)
@@ -93,7 +93,7 @@ export const createTaskTC = (todolistId: string, title: string) => (dispatch: Di
 }
 export const updateTaskTC = (todolistId: string, taskId: string, model: ModelDomainType) =>
     (dispatch: Dispatch, getState: () => AppRootStateType) => {
-        dispatch(setAppStatus("loading"))
+        dispatch(setAppStatus({status: "loading"}))
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (task) {
@@ -109,7 +109,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, model: ModelDom
             todolistsAPI.updateTask(todolistId, taskId, apiModel)
                 .then((res) => {
                     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
-                        dispatch(setAppStatus("succeeded"))
+                        dispatch(setAppStatus({status: "succeeded"}))
                         dispatch(changeTaskStatus(res.data.data.item))
                     } else {
                         handleServerAppError(dispatch, res.data)
@@ -144,5 +144,5 @@ export type ModelDomainType = {
 
 export type TasksActionType = ReturnType<typeof setTasks> | ReturnType<typeof setTodolist>
     | ReturnType<typeof removeTodolist> | ReturnType<typeof removeTask> | ReturnType<typeof createTask>
-    | ReturnType<typeof changeTaskStatus> | SetAppStatusType | SetAppErrorType | addTodolistType
+    | ReturnType<typeof changeTaskStatus> | addTodolistType
     | clearStateType
