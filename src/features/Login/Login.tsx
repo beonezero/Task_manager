@@ -1,20 +1,20 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import FormLabel from "@mui/material/FormLabel";
-import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "../../App/store";
-import { loginTC } from "./auth-reducer";
-import { Navigate } from "react-router-dom";
+import React from "react"
+import Grid from "@mui/material/Grid"
+import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
+import Checkbox from "@mui/material/Checkbox"
+import FormControl from "@mui/material/FormControl"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormGroup from "@mui/material/FormGroup"
+import FormLabel from "@mui/material/FormLabel"
+import { useFormik } from "formik"
+import { useAppDispatch, useAppSelector } from "../../App/store"
+import { loginTC } from "./auth-reducer"
+import { Navigate } from "react-router-dom"
 
 export const Login = React.memo(() => {
-  const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -22,25 +22,25 @@ export const Login = React.memo(() => {
       rememberMe: false,
     },
     validate: (values) => {
-      const errors: FormikErrorType = {};
+      const errors: FormikErrorType = {}
       if (!values.email) {
-        errors.email = "Required";
+        errors.email = "Required"
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address";
+        errors.email = "Invalid email address"
       }
       if (!values.password) {
-        errors.password = "Required";
+        errors.password = "Required"
       } else if (values.password.length < 5) {
-        errors.password = "Most be more 5 symbols";
+        errors.password = "Most be more 5 symbols"
       }
-      return errors;
+      return errors
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values));
+      dispatch(loginTC(values))
     },
-  });
+  })
   if (isLoggedIn) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/"} />
   }
 
   return (
@@ -96,16 +96,16 @@ export const Login = React.memo(() => {
         </FormControl>
       </Grid>
     </Grid>
-  );
-});
+  )
+})
 
 export type LoginDataType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-};
+  email: string
+  password: string
+  rememberMe: boolean
+}
 
 type FormikErrorType = {
-  email?: string;
-  password?: string;
-};
+  email?: string
+  password?: string
+}
