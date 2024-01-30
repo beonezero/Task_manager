@@ -1,5 +1,5 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
+import {ThunkDispatch} from 'redux-thunk'
 import {AnyAction, combineReducers} from "redux";
 import {TodolistReducer} from "../features/TodolistList/todolist-reducer";
 import {taskReducer} from "../features/TodolistList/task-reducer";

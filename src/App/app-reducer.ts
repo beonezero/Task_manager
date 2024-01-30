@@ -10,13 +10,13 @@ const slice = createSlice({
     name: "app",
     initialState: initialState,
     reducers: {
-        setAppStatus(state, action: PayloadAction<{status: RequestStatusType}>){
+        setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         },
-        setAppError(state, action: PayloadAction<{error: string | null}>){
+        setAppError(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
-        setAppIsInitialized(state, action: PayloadAction<{initialized: boolean}>){
+        setAppIsInitialized(state, action: PayloadAction<{ initialized: boolean }>) {
             state.isInitialized = action.payload.initialized
         },
     }
@@ -25,9 +25,7 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 
 
-export const setAppStatus = slice.actions.setAppStatus
-export const setAppError = slice.actions.setAppError
-export const setAppIsInitialized = slice.actions.setAppIsInitialized
+export const {setAppStatus, setAppError, setAppIsInitialized} = slice.actions
 
 //types
 

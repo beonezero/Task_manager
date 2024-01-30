@@ -34,7 +34,7 @@ export const TodolistList = React.memo(() => {
     }
 
     const changeFilter = (todolistId: string, filter: FilterType) => {
-        dispatch(changeTodolistFilter(todolistId, filter))
+        dispatch(changeTodolistFilter({todolistId: todolistId, filter: filter}))
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
