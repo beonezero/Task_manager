@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from "react"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
-import { TaskStatuses, TaskType } from "../../../api/todolist-api"
-import { AditableSpan } from "../../../components/AditableSpan"
+import { TaskStatuses, TaskType } from "api/todolist-api"
+import { AditableSpan } from "components/AditableSpan"
 import Delete from "@mui/icons-material/Delete"
 
 export const Task = React.memo((props: TaskPropsType) => {

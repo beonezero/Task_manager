@@ -1,9 +1,9 @@
-import { TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../../api/todolist-api"
+import { TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "api/todolist-api"
 import { Dispatch } from "redux"
-import { AppRootStateType } from "../../App/store"
+import { AppRootStateType } from "App/store"
 import { addTodolist, clearState, removeTodolist, setTodolist } from "./todolist-reducer"
-import { setAppStatus } from "../../App/app-reducer"
-import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
+import { setAppStatus } from "App/app-reducer"
+import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 const initialState: TaskStateType = {}
