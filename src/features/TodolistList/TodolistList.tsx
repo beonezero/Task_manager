@@ -1,5 +1,5 @@
 import React from "react"
-import { useAppDispatch, useAppSelector } from "../../App/store"
+import { useAppDispatch, useAppSelector } from "App/store"
 import {
   addTodolistTC,
   changeTodolistFilter,
@@ -8,10 +8,10 @@ import {
   removeTodolistTC,
   updateTodolistTC,
 } from "./todolist-reducer"
-import { deleteTaskTC, updateTaskTC } from "./task-reducer"
-import { TaskStatuses } from "../../api/todolist-api"
+import { tasksThunks, updateTaskTC } from "./task-reducer"
+import { TaskStatuses } from "api/todolist-api"
 import { useEffect } from "react"
-import { AddItemForm } from "../../components/AddItemForm"
+import { AddItemForm } from "components/AddItemForm"
 import { Todolist } from "./Todolist/Todolist"
 import Grid from "@mui/material/Grid"
 import Paper from "@mui/material/Paper"
@@ -30,7 +30,7 @@ export const TodolistList = React.memo(() => {
     dispatch(removeTodolistTC(todolistId))
   }
   const removeTask = (todolistId: string, taskId: string) => {
-    dispatch(deleteTaskTC(todolistId, taskId))
+    dispatch(tasksThunks.deleteTask({ todolistId, taskId }))
   }
 
   const changeFilter = (todolistId: string, filter: FilterType) => {
