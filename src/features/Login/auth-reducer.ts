@@ -1,8 +1,8 @@
-import { authAPI, UserType } from "../../api/todolist-api"
+import { authAPI, UserType } from "api/todolist-api"
 import { LoginDataType } from "./Login"
 import { Dispatch } from "redux"
-import { setAppIsInitialized, setAppStatus } from "../../App/app-reducer"
-import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
+import { setAppIsInitialized, setAppStatus } from "App/app-reducer"
+import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { clearState } from "../TodolistList/todolist-reducer"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 

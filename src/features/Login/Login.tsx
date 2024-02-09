@@ -8,7 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import { useFormik } from "formik"
-import { useAppDispatch, useAppSelector } from "../../App/store"
+import { useAppDispatch, useAppSelector } from "App/store"
 import { loginTC } from "./auth-reducer"
 import { Navigate } from "react-router-dom"
 
