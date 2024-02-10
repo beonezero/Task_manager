@@ -1,15 +1,15 @@
 import React from "react"
-import { AddItemForm } from "../../../components/AddItemForm"
-import { FilterType, TodolistDomainType } from "../todolist-reducer"
-import { AditableSpan } from "../../../components/AditableSpan"
-import { TaskStatuses, TaskType } from "../../../api/todolist-api"
-import { createTaskTC } from "../task-reducer"
-import { useAppDispatch } from "../../../App/store"
+import { AddItemForm } from "components/AddItemForm"
+import { FilterType, TodolistDomainType } from "features/TodolistList/todolists-reducer"
+import { AditableSpan } from "components/AditableSpan"
+import { TaskStatuses, TaskType } from "api/todolist-api"
+import { useAppDispatch } from "App/store"
 import Button from "@mui/material/Button"
 import IconButton from "@mui/material/IconButton"
 import Delete from "@mui/icons-material/Delete"
 import { Task } from "../Task/Task"
-import { RequestStatusType } from "../../../App/app-reducer"
+import { RequestStatusType } from "App/app-reducer"
+import { tasksThunks } from "features/TodolistList/task-reducer"
 
 export const Todolist = React.memo((props: TodolistPropsType) => {
   const dispatch = useAppDispatch()
@@ -29,7 +29,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
   }
 
   const addTask = (title: string) => {
-    dispatch(createTaskTC(props.todolistId, title))
+    dispatch(tasksThunks.createTask({ todolistId: props.todolistId, title }))
   }
 
   const changeTodolistTitleHandler = (title: string) => {
@@ -71,11 +71,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         })}
       </div>
       <div style={{ paddingTop: "10px" }}>
-        <Button
-          variant={props.todolist.filter === "all" ? "outlined" : "text"}
-          onClick={onAllClickHandler}
-          color={"inherit"}
-        >
+        <Button variant={props.todolist.filter === "all" ? "outlined" : "text"} onClick={onAllClickHandler} color={"inherit"}>
           All
         </Button>
         <Button

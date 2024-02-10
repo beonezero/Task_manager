@@ -1,14 +1,7 @@
 import React from "react"
 import { useAppDispatch, useAppSelector } from "App/store"
-import {
-  addTodolistTC,
-  changeTodolistFilter,
-  fetchTodolistsTC,
-  FilterType,
-  removeTodolistTC,
-  updateTodolistTC,
-} from "./todolist-reducer"
-import { tasksThunks, updateTaskTC } from "./task-reducer"
+import { changeTodolistFilter, FilterType, todolistsThunks } from "features/TodolistList/todolists-reducer"
+import { tasksThunks } from "./task-reducer"
 import { TaskStatuses } from "api/todolist-api"
 import { useEffect } from "react"
 import { AddItemForm } from "components/AddItemForm"
@@ -24,10 +17,10 @@ export const TodolistList = React.memo(() => {
   const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   const addTodolist = (title: string) => {
-    dispatch(addTodolistTC(title))
+    dispatch(todolistsThunks.addTodolist(title))
   }
   const removeTodolist = (todolistId: string) => {
-    dispatch(removeTodolistTC(todolistId))
+    dispatch(todolistsThunks.removeTodolist(todolistId))
   }
   const removeTask = (todolistId: string, taskId: string) => {
     dispatch(tasksThunks.deleteTask({ todolistId, taskId }))
@@ -39,18 +32,22 @@ export const TodolistList = React.memo(() => {
 
   const changeTaskStatus = (todolistId: string, taskId: string, checked: boolean) => {
     let status = checked ? TaskStatuses.Completed : TaskStatuses.New
-    dispatch(updateTaskTC(todolistId, taskId, { status }))
+    dispatch(tasksThunks.updateTask({ todolistId, taskId, model: { status } }))
   }
 
   const changeTasksTitle = (todolistId: string, taskId: string, title: string) => {
-    dispatch(updateTaskTC(todolistId, taskId, { title }))
+    dispatch(tasksThunks.updateTask({ todolistId, taskId, model: { title } }))
   }
-  const changeTodolistTitle = (todolistId: string, value: string) => {
-    dispatch(updateTodolistTC(todolistId, value))
+  const changeTodolistTitle = (todolistId: string, title: string) => {
+    dispatch(todolistsThunks.updateTodolist({ todolistId, title }))
   }
 
   useEffect(() => {
-    dispatch(fetchTodolistsTC())
+    dispatch(todolistsThunks.fetchTodolists()).then((res) => {
+      res.payload?.todolists.forEach((tl) => {
+        dispatch(tasksThunks.fetchTasks(tl.id))
+      })
+    })
   }, [dispatch])
 
   if (!isLoggedIn) {

@@ -9,8 +9,8 @@ import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import { useFormik } from "formik"
 import { useAppDispatch, useAppSelector } from "App/store"
-import { loginTC } from "./auth-reducer"
 import { Navigate } from "react-router-dom"
+import { authThunks } from "features/Login/auth-reducer"
 
 export const Login = React.memo(() => {
   const dispatch = useAppDispatch()
@@ -35,8 +35,8 @@ export const Login = React.memo(() => {
       }
       return errors
     },
-    onSubmit: (values) => {
-      dispatch(loginTC(values))
+    onSubmit: (data) => {
+      dispatch(authThunks.login(data))
     },
   })
   if (isLoggedIn) {
@@ -84,9 +84,7 @@ export const Login = React.memo(() => {
               />
               <FormControlLabel
                 label={"Remember me"}
-                control={
-                  <Checkbox name={"rememberMe"} onChange={formik.handleChange} checked={formik.values.rememberMe} />
-                }
+                control={<Checkbox name={"rememberMe"} onChange={formik.handleChange} checked={formik.values.rememberMe} />}
               />
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login

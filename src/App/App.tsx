@@ -8,15 +8,15 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import Menu from "@mui/icons-material/Menu"
 import LinearProgress from "@mui/material/LinearProgress"
-import { TodolistList } from "../features/TodolistList/TodolistList"
+import { TodolistList } from "features/TodolistList/TodolistList"
 import { useAppDispatch, useAppSelector } from "./store"
 import { RequestStatusType } from "./app-reducer"
-import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar"
+import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar"
 import { Navigate, Route, Routes } from "react-router-dom"
-import { Login } from "../features/Login/Login"
+import { Login } from "features/Login/Login"
 import { useEffect } from "react"
-import { logoutTC, meTC } from "../features/Login/auth-reducer"
 import CircularProgress from "@mui/material/CircularProgress"
+import { authThunks } from "features/Login/auth-reducer"
 
 export const App = () => {
   const status = useAppSelector<RequestStatusType>((state) => state.app.status)
@@ -25,11 +25,11 @@ export const App = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(meTC())
+    dispatch(authThunks.me())
   }, [])
 
   const handleLogout = () => {
-    dispatch(logoutTC())
+    dispatch(authThunks.logout())
   }
 
   if (!isInitialized) {

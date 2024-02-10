@@ -1,14 +1,14 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 import { ThunkDispatch } from "redux-thunk"
 import { AnyAction, combineReducers } from "redux"
-import { TodolistReducer } from "features/TodolistList/todolist-reducer"
+import { todolistsReducer } from "features/TodolistList/todolists-reducer"
 import { taskReducer } from "features/TodolistList/task-reducer"
 import { appReducer } from "./app-reducer"
 import { configureStore } from "@reduxjs/toolkit"
 import { authReducer } from "features/Login/auth-reducer"
 
 const rootReducer = combineReducers({
-  todolists: TodolistReducer,
+  todolists: todolistsReducer,
   tasks: taskReducer,
   app: appReducer,
   auth: authReducer,
