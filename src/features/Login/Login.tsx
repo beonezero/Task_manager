@@ -37,6 +37,8 @@ export const Login = React.memo(() => {
     },
     onSubmit: (data) => {
       dispatch(authThunks.login(data))
+        .unwrap()
+        .then(() => {})
     },
   })
   if (isLoggedIn) {
