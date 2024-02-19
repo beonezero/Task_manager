@@ -3,6 +3,7 @@ import { handleServerAppError, handleServerNetworkError } from "utils/error-util
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "utils/createAppAsyncThunk"
 import { appActions } from "app/app-reducer"
+import { todolistsActions } from "features/TodolistsList/todolists-reducer"
 
 const me = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("auth/me", async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI
@@ -19,6 +20,8 @@ const me = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("auth/me", as
   } catch (e) {
     handleServerNetworkError(e, dispatch)
     return rejectWithValue(null)
+  } finally {
+    dispatch(appActions.setAppInitialized({ isInitialized: true }))
   }
 })
 
@@ -52,6 +55,7 @@ const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("auth/log
     const res = await authAPI.logout()
     if (res.data.resultCode === RESULT_CODE.SUCCEEDED) {
       dispatch(appActions.setAppStatus({ status: "succeeded" }))
+      dispatch(todolistsActions.clearState())
       return { isLoggedIn: false }
     } else {
       handleServerAppError(res.data, dispatch)

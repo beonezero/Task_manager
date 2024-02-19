@@ -39,7 +39,7 @@ export const todolistsAPI = {
     return instance.post<BaseResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, { title: taskTitile })
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<BaseResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
+    return instance.put<BaseResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }
 
@@ -104,6 +104,7 @@ export type TaskType = {
   priority: TaskPriorities
   startDate: string
   deadline: string
+  completed: boolean
   id: string
   todoListId: string
   order: number
@@ -112,11 +113,13 @@ export type TaskType = {
 export type UpdateTaskModelType = {
   title: string
   description: string
+  completed: boolean
   status: TaskStatuses
   priority: TaskPriorities
   startDate: string
   deadline: string
 }
+
 type GetTasksResponse = {
   error: string | null
   totalCount: number

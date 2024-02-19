@@ -8,7 +8,7 @@ const slice = createSlice({
     isInitialized: false as boolean,
   },
   reducers: {
-    setAppError(state, action: PayloadAction<{ error: string }>) {
+    setAppError(state, action: PayloadAction<{ error: string | null }>) {
       state.error = action.payload.error
     },
     setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
