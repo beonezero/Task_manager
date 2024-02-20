@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { AppRootStateType } from "app/store"
 import { FilterValuesType, todolistsActions, todolistsThunks } from "./todolists-reducer"
 import { tasksThunks } from "./tasks-reducer"
 import { Grid, Paper } from "@mui/material"
