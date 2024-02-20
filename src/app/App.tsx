@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from "react"
 import "./App.css"
 import { TodolistsList } from "features/TodolistsList/TodolistsList"
-import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar"
+import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 import { useDispatch, useSelector } from "react-redux"
 import { AppRootStateType } from "./store"
 import { RequestStatusType } from "./app-reducer"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Login } from "features/Login/Login"
+import { Login } from "features/auth/Login/Login"
 import { AppBar, Button, CircularProgress, Container, IconButton, LinearProgress, Toolbar, Typography } from "@mui/material"
 import { Menu } from "@mui/icons-material"
-import { authThunks } from "features/Login/auth-reducer"
+import { authThunks } from "features/auth/auth-reducer"
 
 type PropsType = {
   demo?: boolean

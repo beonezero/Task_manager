@@ -3,9 +3,16 @@ import { useFormik } from "formik"
 import { useSelector } from "react-redux"
 import { AppRootStateType } from "app/store"
 import { Navigate } from "react-router-dom"
-import { useAppDispatch } from "hooks/useAppDispatch"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material"
-import { authThunks } from "features/Login/auth-reducer"
+import { authThunks } from "features/auth/auth-reducer"
+
+//types
+export type LoginParamsType = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
 
 export const Login = () => {
   const dispatch = useAppDispatch()

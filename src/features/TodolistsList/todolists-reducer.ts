@@ -1,8 +1,10 @@
-import { RESULT_CODE, todolistsAPI, TodolistType } from "api/todolists-api"
 import { appActions, RequestStatusType } from "app/app-reducer"
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { createAppAsyncThunk } from "utils/createAppAsyncThunk"
+import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
+import { todolistsAPI, TodolistType } from "features/TodolistsList/todolistsApi"
+import { RESULT_CODE } from "common/enum/enum"
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
+import { handleServerAppError } from "common/utils/handleServerAppError"
 
 //thunks
 

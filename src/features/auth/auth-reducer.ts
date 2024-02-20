@@ -1,9 +1,12 @@
-import { authAPI, LoginParamsType, RESULT_CODE } from "api/todolists-api"
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils"
 import { createSlice } from "@reduxjs/toolkit"
-import { createAppAsyncThunk } from "utils/createAppAsyncThunk"
+import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk"
 import { appActions } from "app/app-reducer"
 import { todolistsActions } from "features/TodolistsList/todolists-reducer"
+import { handleServerAppError } from "common/utils/handleServerAppError"
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
+import { RESULT_CODE } from "common/enum/enum"
+import { LoginParamsType } from "features/auth/Login/Login"
+import { authAPI } from "features/auth/authApi"
 
 const me = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>("auth/me", async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI

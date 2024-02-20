@@ -3,12 +3,12 @@ import { useSelector } from "react-redux"
 import { AppRootStateType } from "app/store"
 import { FilterValuesType, TodolistDomainType, todolistsActions, todolistsThunks } from "./todolists-reducer"
 import { TasksStateType, tasksThunks } from "./tasks-reducer"
-import { TaskStatuses } from "api/todolists-api"
 import { Grid, Paper } from "@mui/material"
-import { AddItemForm } from "components/AddItemForm/AddItemForm"
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm"
 import { Todolist } from "./Todolist/Todolist"
 import { Navigate } from "react-router-dom"
-import { useAppDispatch } from "hooks/useAppDispatch"
+import { useAppDispatch } from "common/hooks/useAppDispatch"
+import { TaskStatuses } from "common/enum/enum"
 
 type PropsType = {
   demo?: boolean
