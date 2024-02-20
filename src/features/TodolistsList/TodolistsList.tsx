@@ -11,6 +11,7 @@ import { useAppDispatch } from "common/hooks/useAppDispatch"
 import { TaskStatuses } from "common/enum/enum"
 import { todolistsSelectors } from "features/TodolistsList/todolists-selectors"
 import { tasksSelectors } from "features/TodolistsList/Todolist/tasks-selectors"
+import { authSelectors } from "features/auth/auth-selectors"
 
 type PropsType = {
   demo?: boolean
@@ -19,7 +20,7 @@ type PropsType = {
 export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   const todolists = todolistsSelectors.useTodolistsSelectors()
   const tasks = tasksSelectors.useTasksSelectors()
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+  const isLoggedIn = authSelectors.useIsLoggedIn()
 
   const dispatch = useAppDispatch()
 

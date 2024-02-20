@@ -2,23 +2,23 @@ import React, { useCallback, useEffect } from "react"
 import "./App.css"
 import { TodolistsList } from "features/TodolistsList/TodolistsList"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
-import { useDispatch, useSelector } from "react-redux"
-import { AppRootStateType } from "./store"
-import { RequestStatusType } from "./app-reducer"
+import { useDispatch } from "react-redux"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Login } from "features/auth/Login/Login"
 import { AppBar, Button, CircularProgress, Container, IconButton, LinearProgress, Toolbar, Typography } from "@mui/material"
 import { Menu } from "@mui/icons-material"
 import { authThunks } from "features/auth/auth-reducer"
+import { appSelectors } from "app/app-selectors"
+import { authSelectors } from "features/auth/auth-selectors"
 
 type PropsType = {
   demo?: boolean
 }
 
 function App({ demo = false }: PropsType) {
-  const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-  const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
+  const status = appSelectors.useStatus()
+  const isInitialized = appSelectors.useIsInitialized()
+  const isLoggedIn = authSelectors.useIsLoggedIn()
   const dispatch = useDispatch<any>()
 
   useEffect(() => {
