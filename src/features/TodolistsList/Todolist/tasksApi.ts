@@ -4,7 +4,7 @@ import { BaseResponseType } from "common/types"
 
 export const tasksApi = {
   getTasks(todolistId: string) {
-    return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
+    return instance.get<TasksResponseType>(`todo-lists/${todolistId}/tasks`)
   },
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<BaseResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
@@ -40,7 +40,7 @@ export type UpdateTaskModelType = {
   deadline: string
 }
 
-type GetTasksResponse = {
+type TasksResponseType = {
   error: string | null
   totalCount: number
   items: TaskType[]
